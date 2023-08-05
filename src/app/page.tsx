@@ -3,11 +3,12 @@ import Link from "next/link";
 import ProductCard from "./components/ProductCard";
 import { Suspense } from "react";
 import getAllFeaturedProducts from "./lib/getAllFeaturedProducts";
+import DisplayProducts from "./components/DisplayProducts";
 
 export default async function Home() {
 
-  const productsData = await fetch(process.env.API_URL + '/api/products?filters[featured][$eq]=true&populate=*').then(res => res.json())
-  const products:Product[] = productsData.data
+  const productsData = getAllFeaturedProducts()
+  const products = await productsData
 
   return (
     <main>
@@ -25,11 +26,7 @@ export default async function Home() {
       <section className="p-5">
         <h3 className="text-xl font-bold text-blue-950">Featured</h3>
         <div className="p-3"></div>
-        <Suspense fallback={<section>Loading...</section>}>
-          <section className="grid grid-cols-2 gap-2 md:grid-cols-3">
-            {products.map(product => <ProductCard key={product.id} img={process.env.API_URL + product.attributes.images.data[0].attributes.formats.small.url} title={product.attributes.name} price={product.attributes.price} sale={product.attributes.sale}/>)}
-          </section>
-        </Suspense>
+        <DisplayProducts products={products.data}/>
       </section>
     </main>
   )

@@ -13,3 +13,18 @@ type Product = {
         "images": any
     }
 }
+
+type Size = {
+    "id": number,
+    "attributes": {
+        "name": string,
+    }
+}
+
+type Color = {
+    "id": number,
+    "attributes": {
+        "name": string,
+        "hex": string,
+    }
+}

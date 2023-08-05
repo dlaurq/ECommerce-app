@@ -11,7 +11,7 @@ export default function ProductCard({img, title, price, sale}: {img: string, tit
     }
 
   return (
-    <section onClick={handleClick} className='cursor-pointer'>
+    <section onClick={handleClick} className='cursor-pointer hover:underline'>
         <Image 
             className='aspect-square object-contain'
             src={img} 
