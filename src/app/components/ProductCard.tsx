@@ -2,12 +2,12 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
-export default function ProductCard({img, title, price, sale}: {img: string, title: string, price: number, sale: number}) {
+export default function ProductCard({img, title, price, sale, id}: {img: string, title: string, price: number, sale: number, id: string | number}) {
 
     const router = useRouter()
 
     const handleClick = () => {
-        router.push(`/shoes/${title}`)
+        router.push(`/shoes/${id}`)
     }
 
   return (

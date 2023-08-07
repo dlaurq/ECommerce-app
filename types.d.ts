@@ -10,7 +10,8 @@ type Product = {
         "price": number,
         "sale": number,
         "description": number,
-        "images": any
+        "images": any,
+        "sizes": {data: Size[]}
     }
 }
 
