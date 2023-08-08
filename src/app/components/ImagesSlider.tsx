@@ -10,7 +10,7 @@ export default function ImagesSlider({images}:{images: any}) {
     const [imageNo, setImageNo] = useState(0)
 
   return (
-    <section>
+    <section className="w-fit md:hidden mx-auto">
         <Image 
             className='aspect-square object-contain'
             src={process.env.NEXT_PUBLIC_API_URL + images[imageNo].attributes.url} 
