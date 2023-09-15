@@ -15,7 +15,7 @@ async function main() {
 
     sizes.forEach(async (size, index ) => {
         const sizeData = await prisma.size.upsert({
-            where: {id: index + 1},
+            where: {name: size},
             update: {},
             create: {
                 name: size
@@ -27,7 +27,7 @@ async function main() {
 
     colors.forEach(async (color, index) => {
         const colorData = await prisma.color.upsert({
-            where: {id: index + 1},
+            where: {name: color},
             update: {},
             create: {
                 name: color
