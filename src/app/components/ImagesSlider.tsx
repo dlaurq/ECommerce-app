@@ -13,7 +13,7 @@ export default function ImagesSlider({images}:{images: any}) {
     <section className="w-fit md:hidden mx-auto">
         <Image 
             className='aspect-square object-contain'
-            src={process.env.NEXT_PUBLIC_API_URL + images[imageNo].attributes.url} 
+            src={'/' + images[imageNo].url} 
             alt='shoes image'
             width={500}
             height={500}

@@ -1,8 +1,8 @@
 import { Suspense } from 'react'
 import ProductCard from './ProductCard'
+import { Product } from '../../../types'
 
-
-export default function DisplayProducts({products}:{products:Product[]}) {
+export default function DisplayProducts({products}:{products: Product[]}) {
 
   return (
     <Suspense fallback={<section>Loading...</section>}>
@@ -11,10 +11,10 @@ export default function DisplayProducts({products}:{products:Product[]}) {
                 <ProductCard 
                     id={product.id}
                     key={product.id} 
-                    img={process.env.API_URL + product.attributes.images.data[0].attributes.formats.small.url} 
-                    title={product.attributes.name} 
-                    price={product.attributes.price} 
-                    sale={product.attributes.sale}/>
+                    img={'/' + product.images[0].url} 
+                    title={product.name} 
+                    price={product.price} 
+                    sale={product.sale}/>
             )}
         </section>
     </Suspense>

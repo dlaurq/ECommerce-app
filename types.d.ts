@@ -1,31 +1,29 @@
-type Product = {
-    "id": number,
-    "attributes": {
-        "name": string,
-        "quantity": number,
-        "createdAt": Date,
-        "updatedAt": Date,
-        "publishedAt": Date,
-        "featured": boolean,
-        "price": number,
-        "sale": number,
-        "description": number,
-        "images": any,
-        "sizes": {data: Size[]}
-    }
-}
+import { Prisma } from "@prisma/client"
 
-type Size = {
-    "id": number,
-    "attributes": {
-        "name": string,
+type Product = Prisma.ProductGetPayload<{
+  include:{
+    images: true,
+    productColors: {
+        include: {
+            Color: true
+        }
+    },
+    productSizeQuantity: {
+        include: {
+            Size: true
+        }
     }
-}
+  }
+}>
 
-type Color = {
-    "id": number,
-    "attributes": {
-        "name": string,
-        "hex": string,
-    }
-}
+
+type CartProduct = Prisma.CartProductGetPayload<{
+  include:{
+    products: {
+        include: {
+            images: true,
+        }
+    },
+    size:true
+  }
+}>

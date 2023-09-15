@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id                  Int                   @id @default(autoincrement())
+  name                String                @unique
+  featured            Boolean               @default(false)
+  description         String
+  price               Int
+  sale                Int
+  productColors       ProductColors[]
+  productSizeQuantity ProductSizeQuantity[]
+  images              Image[]
+  cartProduct         CartProduct[]
+}
+
+model Color {
+  id            Int             @id @default(autoincrement())
+  name          String          @unique
+  hex           String?
+  productColors ProductColors[]
+}
+
+model Size {
+  id                  Int                   @id @default(autoincrement())
+  name                String                @unique
+  productSizeQuantity ProductSizeQuantity[]
+  CartProduct         CartProduct[]
+}
+
+model Image {
+  id        Int     @id @default(autoincrement())
+  name      String
+  url       String
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+}
+
+model CartProduct {
+  id        Int     @id @default(autoincrement())
+  products  Product @relation(fields: [productId], references: [id])
+  productId Int
+  size      Size    @relation(fields: [sizeId], references: [id])
+  sizeId    Int
+  cart      Cart    @relation(fields: [cartId], references: [id])
+  cartId    Int
+  quantity  Int?
+}
+
+model Cart {
+  id           Int           @id @default(autoincrement())
+  cartProducts CartProduct[]
+  userId       String        @unique
+}
+
+model ProductColors {
+  id        Int      @id @default(autoincrement())
+  Product   Product? @relation(fields: [productId], references: [id])
+  productId Int?
+  Color     Color?   @relation(fields: [colorId], references: [id])
+  colorId   Int?
+}
+
+model ProductSizeQuantity {
+  id        Int      @id @default(autoincrement())
+  quantity  Int
+  Product   Product? @relation(fields: [productId], references: [id])
+  productId Int?
+  Size      Size?    @relation(fields: [sizeId], references: [id])
+  sizeId    Int?
+}

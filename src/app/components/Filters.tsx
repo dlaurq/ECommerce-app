@@ -2,6 +2,7 @@
 
 import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Color, Size } from "@prisma/client"
 import { useRouter, useSearchParams } from "next/navigation"
 import qs from "query-string"
 import { useState, useEffect } from "react"
@@ -11,13 +12,26 @@ type BooleanObject = {
 }
 
 
-export default function Filters({data, name, valueKey}:{data: Array<any>, name: string, valueKey: string}) {
+export default function Filters({data, name, valueKey}:{data: Array<Color | Size>, name: string, valueKey: string}) {
 
   const searchParams = useSearchParams()
   const router = useRouter()
 
   const [checked, setChecked] = useState<BooleanObject>({})
   const [toggle, setToggle] = useState(true)
+
+
+  useEffect(() => {
+    const currentParams = qs.parse(searchParams.toString());
+
+    if(currentParams[valueKey]){
+      const param = currentParams[valueKey] as string
+      param.split(' ').forEach(item => {
+        setChecked(prevChecked => ({...prevChecked, [item]: true}))
+      })
+    }
+
+  }, [])
 
   useEffect(() => {
     
@@ -45,18 +59,18 @@ export default function Filters({data, name, valueKey}:{data: Array<any>, name: 
     router.push(url);
     
   }, [checked, router, searchParams, valueKey])
-  
+ 
 
   return (
     <section className=" py-5 border-b-2 border-black">
-      <section className="flex flex-row justify-between items-center text-2xl" onClick={() => setToggle(!toggle)}>
+      <section className="flex flex-row justify-between items-center text-2xl" onClick={() => setToggle(prevToggle => !prevToggle)}>
         <h3>{name}</h3>
         <FontAwesomeIcon icon={toggle ? faCaretUp : faCaretDown} />
       </section>
         {!toggle && data.map(item => 
           <fieldset key={item.id} className="py-1 text-xl">
-            <input type="checkbox" defaultChecked={checked[item.attributes.name]} name={item.attributes.name} id={item.id} onChange={(e) => setChecked({...checked, [e.target.name]: e.target.checked})}/>
-            <label htmlFor={item.id} className="ml-2">{item.attributes.name}</label>
+            <input type="checkbox" defaultChecked={checked[item.name]} name={item.name} id={name + item.id} onChange={(e) => setChecked(prevChecked =>  ({...prevChecked, [e.target.name]: e.target.checked}))}/>
+            <label htmlFor={name + item.id} className="ml-2">{item.name}</label>
           </fieldset>
         )}
     </section>

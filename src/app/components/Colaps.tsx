@@ -1,12 +1,19 @@
 'use client'
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 export default function Colaps({children, title}: {children: React.ReactNode, title: string}) {
 
-    const [toggle, setToggle] = useState(innerWidth < 768 ? true : false)
+  useEffect(() => {
+
+    setWidth(window.innerWidth)
+
+  }, [window.innerWidth])
+
+  const [width, setWidth] = useState(innerWidth)
+  const [toggle, setToggle] = useState(width < 768 ? true : false)
 
 
   return (
