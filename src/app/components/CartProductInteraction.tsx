@@ -14,7 +14,7 @@ export default function CartProductInteraction({cartProduct}:{cartProduct:CartPr
     const [quantity, setQuantity] = useState<number>(cartProduct.quantity!) 
 
     const handleDelete = async () => {
-        const res = await fetch('http://localhost:3000/api/product', {
+        const res = await fetch('/api/product', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -25,7 +25,7 @@ export default function CartProductInteraction({cartProduct}:{cartProduct:CartPr
     }
 
     const submitChange = async () => {
-        const res = await fetch('http://localhost:3000/api/product', {
+        const res = await fetch('/api/product', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

@@ -20,7 +20,7 @@ export default function ProductForm({sizes, productId}: {sizes:Size[], productId
     if(!userId) return router.push('/cart')
     if(!selectedSize) return
 
-    const res = await fetch('http://localhost:3000/api/product', {
+    const res = await fetch('/api/product', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
