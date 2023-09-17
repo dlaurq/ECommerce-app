@@ -1,61 +1,69 @@
+import Filters from "../components/Filters";
+import DisplayProducts from "../components/DisplayProducts";
+import Colaps from "../components/Colaps";
+import prisma from "../lib/prisma";
+import { Color, Size } from "@prisma/client";
+import { Product } from "../../../types";
+import { getAllProducts } from "../lib/product";
 
-import Filters from '../components/Filters'
-import DisplayProducts from '../components/DisplayProducts'
-import Colaps from '../components/Colaps'
-import prisma from '../lib/prisma'
-import { Color, Size } from '@prisma/client'
-import { Product } from '../../../types'
-import { getAllProducts } from '../lib/product'
+const Shoes = async ({
+  searchParams,
+}: {
+  searchParams: { sizes: string; colors: string };
+}) => {
+  let where = {};
 
-const Shoes = async ({searchParams}:{searchParams: {sizes: string, colors: string}}) => {
-
-  let where = {}
-
-  if(searchParams.sizes && searchParams.sizes.length > 0){
-    where = {...where,
+  if (searchParams.sizes && searchParams.sizes.length > 0) {
+    where = {
+      ...where,
       productSizeQuantity: {
         some: {
           Size: {
             name: {
-              in: searchParams.sizes?.split(' ').map(size => size)
-            }
-          }
-        }
-      }
-    }
+              in: searchParams.sizes?.split(" ").map((size) => size),
+            },
+          },
+        },
+      },
+    };
   }
 
-  if(searchParams.colors && searchParams.colors.length > 0){
-    where = {...where,
+  if (searchParams.colors && searchParams.colors.length > 0) {
+    where = {
+      ...where,
       productColors: {
         some: {
           Color: {
             name: {
-              in: searchParams.colors?.split(' ').map(size => size)
-            }
-          }
-        }
-      }
-    }
+              in: searchParams.colors?.split(" ").map((size) => size),
+            },
+          },
+        },
+      },
+    };
   }
 
-  const colorsData = await prisma.color.findMany({orderBy: { name:'asc'}})
-  const sizesData = await prisma.size.findMany({orderBy: { name:'asc'}})
-  const productsData = await getAllProducts(where)
+  const colorsData = await prisma.color.findMany({ orderBy: { name: "asc" } });
+  const sizesData = await prisma.size.findMany({ orderBy: { name: "asc" } });
+  const productsData = await getAllProducts(where);
 
-  const [colors, sizes, products]: [colors: Color[], sizes: Size[], products: Product[]] = await Promise.all([colorsData, sizesData, productsData])
-      
+  const [colors, sizes, products]: [
+    colors: Color[],
+    sizes: Size[],
+    products: Product[]
+  ] = await Promise.all([colorsData, sizesData, productsData]);
+
   return (
-    <main className='md:flex flex-row'>
-      <Colaps title='Filters'>
-        <Filters data={sizes} valueKey='sizes' name='sizes' />
-        <Filters data={colors} valueKey='colors' name='colors' />
+    <main className="md:flex flex-row md:px-3 min-h-[80vh]">
+      <Colaps title="Filters">
+        <Filters data={sizes} valueKey="sizes" name="sizes" />
+        <Filters data={colors} valueKey="colors" name="colors" />
       </Colaps>
-      <section className='p-5'>
-        <DisplayProducts products={products}/>
+      <section className="p-5">
+        <DisplayProducts products={products} />
       </section>
     </main>
-  )
-}
+  );
+};
 
-export default Shoes
+export default Shoes;
