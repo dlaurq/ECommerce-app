@@ -5,6 +5,7 @@ import prisma from "@/app/lib/prisma";
 type Data = { userId: string };
 
 export async function POST(request: Request) {
+  console.log();
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
     apiVersion: "2023-08-16",
   });
@@ -34,8 +35,8 @@ export async function POST(request: Request) {
   const session = await stripe.checkout.sessions.create({
     line_items: line_items,
     mode: "payment",
-    success_url: "http://localhost:3000",
-    cancel_url: "http://localhost:3000",
+    success_url: request.headers.get("origin")!,
+    cancel_url: request.headers.get("origin")!,
   });
 
   return NextResponse.json(session.url);
