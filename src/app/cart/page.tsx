@@ -3,6 +3,7 @@ import { getCartProductsByUser } from "../lib/product";
 import { redirect } from "next/navigation";
 import CartProduct from "../components/CartProduct";
 import RouterRefresh from "../components/RouterRefresh";
+import CheckoutButton from "../components/CheckoutButton";
 
 export const revalidate = 0;
 
@@ -38,9 +39,7 @@ export default async function Cart() {
           )}
           $
         </p>
-        <button className="bg-black text-amber-500 text-xl font-medium p-5 w-fit hover:opacity-80">
-          Checkout
-        </button>
+        <CheckoutButton userId={userId} />
       </section>
       <RouterRefresh />
     </section>
