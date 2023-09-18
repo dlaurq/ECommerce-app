@@ -5,7 +5,7 @@ import prisma from "@/app/lib/prisma";
 type Data = { userId: string };
 
 export async function POST(request: Request) {
-  console.log();
+  //console.log();
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
     apiVersion: "2023-08-16",
   });

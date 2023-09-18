@@ -36,10 +36,10 @@ export default function CartProductInteraction({
       body: JSON.stringify({ id: cartProduct.id, quantity: quantity }),
     });
 
-    console.log(await res.json());
+    //console.log(await res.json());
 
     router.refresh();
-    console.log("refresh");
+    //console.log("refresh");
   };
 
   const debounced = useDebouncedCallback(submitChange, 1000);
