@@ -39,5 +39,5 @@ export async function POST(request: Request) {
     cancel_url: request.headers.get("origin")!,
   });
 
-  return NextResponse.json(session.url);
+  return NextResponse.json({ session });
 }

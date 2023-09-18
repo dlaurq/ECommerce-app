@@ -10,7 +10,8 @@ export default function CheckoutButton({ userId }: { userId: string }) {
       body: JSON.stringify({ userId: userId }),
     });
 
-    window.location.assign(await res.json());
+    const { session } = await res.json();
+    window.location.assign(session.url);
   };
 
   return (
