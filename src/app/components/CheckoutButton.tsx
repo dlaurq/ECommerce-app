@@ -11,6 +11,7 @@ export default function CheckoutButton({ userId }: { userId: string }) {
     });
 
     const { session } = await res.json();
+    console.log(session);
     window.location.assign(session.url);
   };
 
