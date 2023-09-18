@@ -33,6 +33,7 @@ export default function ProductForm({
     });
 
     if (res?.ok) setButtonText("Product added");
+    router.refresh();
     //console.log(await res.json());
   };
 
