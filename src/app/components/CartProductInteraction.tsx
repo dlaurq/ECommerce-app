@@ -73,7 +73,7 @@ export default function CartProductInteraction({
             <FontAwesomeIcon icon={faMinus} />
           </button>
           <input
-            className="border-gray-200 border-y-2 text-sm font-bold w-7 h-7 text-center"
+            className="border-gray-200 border-y-2 text-sm font-bold w-7 h-7 text-center p-0"
             type="number"
             name={"quantity" + cartProduct.id}
             id={"quantity" + cartProduct.id}

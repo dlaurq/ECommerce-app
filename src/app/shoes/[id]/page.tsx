@@ -7,7 +7,15 @@ import { Size } from "@prisma/client";
 export default async function Page({ params }: { params: { id: string } }) {
   const product = await getProductById(params.id);
 
-  const sizes = product!.productSizeQuantity.map((item) => item.Size) as Size[];
+  const sizes = product!.productSizeQuantity
+    .map((item) => item.Size)
+    .sort((a, b) =>
+      parseInt(a?.name!) > parseInt(b?.name!)
+        ? 1
+        : parseInt(a?.name!) < parseInt(b?.name!)
+        ? -1
+        : 0
+    ) as Size[];
 
   return (
     <main className="p-5 md:flex md:flex-row md:items-center justify-center ">
