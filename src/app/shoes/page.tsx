@@ -54,12 +54,12 @@ const Shoes = async ({
   ] = await Promise.all([colorsData, sizesData, productsData]);
 
   return (
-    <main className="md:flex flex-row md:px-3 min-h-[80vh]">
+    <main className="md:grid md:grid-cols-5 md:px-3 min-h-[100vh]">
       <Colaps title="Filters">
         <Filters data={sizes} valueKey="sizes" name="sizes" />
         <Filters data={colors} valueKey="colors" name="colors" />
       </Colaps>
-      <section className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+      <section className="p-5 max-w-2xl lg:max-w-7xl md:col-span-4">
         <DisplayProducts products={products} />
       </section>
     </main>
