@@ -1,6 +1,5 @@
-"use client";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function ProductCard({
   img,
@@ -15,35 +14,24 @@ export default function ProductCard({
   sale: number;
   id: string | number;
 }) {
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push(`/shoes/${id}`);
-  };
-
   return (
-    <section>
-      <section
-        onClick={handleClick}
-        className="cursor-pointer hover:underline hover:opacity-80 w-fit"
-      >
-        <section className="">
-          <Image
-            className="aspect-square object-cover w-auto h-32 sm:h-64 "
-            src={img}
-            alt={title}
-            width={500}
-            height={500}
-            sizes="(min-width: 1120px) 500px, calc(46.75vw - 14px)"
-          />
-        </section>
-        <p className="break-words">{title}</p>
-        <p>
-          {" "}
-          <span>{price}$</span>{" "}
-          <span className="line-through text-red-600">{sale}$</span>
-        </p>
+    <Link href={`/shoes/${id}`} className="group">
+      <section className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+        <Image
+          className="h-full w-full object-cover object-center group-hover:opacity-75"
+          src={img}
+          alt={title}
+          width={500}
+          height={500}
+          sizes="(min-width: 1120px) 500px, calc(46.75vw - 14px)"
+        />
       </section>
-    </section>
+      <h3 className="mt-1 text-lg font-medium text-gray-900">{title}</h3>
+      <p>
+        {" "}
+        <span>{price}$</span>{" "}
+        <span className="line-through text-red-600">{sale}$</span>
+      </p>
+    </Link>
   );
 }

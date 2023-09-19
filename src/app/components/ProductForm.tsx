@@ -43,7 +43,7 @@ export default function ProductForm({
       <fieldset>
         <select
           onChange={(e) => setSelectedSize(e.target.value)}
-          className="text-xl border-2 border-black px-2 py-1 w-full text-center cursor-pointer"
+          className="text-xl border-2 border-black px-2 py-1 w-full text-left cursor-pointer"
           name="sizes"
           id="sizes"
           required

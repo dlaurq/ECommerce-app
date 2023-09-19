@@ -5,7 +5,7 @@ import { Product } from "../../../types";
 export default function DisplayProducts({ products }: { products: Product[] }) {
   return (
     <Suspense fallback={<section>Loading...</section>}>
-      <section className="grid grid-cols-2 gap-2 md:grid-cols-3">
+      <section className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
         {products.map((product) => (
           <ProductCard
             id={product.id}

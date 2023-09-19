@@ -59,7 +59,7 @@ const Shoes = async ({
         <Filters data={sizes} valueKey="sizes" name="sizes" />
         <Filters data={colors} valueKey="colors" name="colors" />
       </Colaps>
-      <section className="p-5">
+      <section className="p-5 max-w-2xl lg:max-w-7xl">
         <DisplayProducts products={products} />
       </section>
     </main>
