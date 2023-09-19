@@ -74,7 +74,7 @@ model ProductColors {
 
 model ProductSizeQuantity {
   id        Int      @id @default(autoincrement())
-  quantity  Int
+  quantity  Int      @default(10)
   Product   Product? @relation(fields: [productId], references: [id])
   productId Int?
   Size      Size?    @relation(fields: [sizeId], references: [id])
