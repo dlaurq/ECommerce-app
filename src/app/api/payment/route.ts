@@ -18,7 +18,7 @@ export async function POST(request: Request) {
 
   const products = await prisma.product.findMany();
 
-  if (!cart) return new Error();
+  if (!cart) return NextResponse.json({ message: "cart not found" });
 
   const cartProducts = await prisma.cartProduct.findMany({
     where: {
@@ -39,5 +39,5 @@ export async function POST(request: Request) {
     cancel_url: request.headers.get("origin")!,
   });
 
-  return NextResponse.json({ session });
+  return NextResponse.json(session);
 }
