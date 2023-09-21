@@ -6,11 +6,17 @@ import { Color, Size } from "@prisma/client";
 import { Product } from "../../../types";
 import { getAllProducts } from "../lib/product";
 import Sort from "../components/Sort";
+import SearchBar from "../components/SearchBar";
 
 const Shoes = async ({
   searchParams,
 }: {
-  searchParams: { sizes: string; colors: string; orderBy: string };
+  searchParams: {
+    sizes: string;
+    colors: string;
+    orderBy: string;
+    search: string;
+  };
 }) => {
   let where = {};
   let orderBy: {} = { name: "asc" };
@@ -58,6 +64,16 @@ const Shoes = async ({
     }
   }
 
+  if (searchParams.search && searchParams.search.length > 2) {
+    where = {
+      ...where,
+      name: {
+        contains: searchParams.search,
+        mode: "insensitive",
+      },
+    };
+  }
+
   const colorsData = await prisma.color.findMany({ orderBy: { name: "asc" } });
   const sizesData = await prisma.size.findMany({ orderBy: { name: "asc" } });
   const productsData = await getAllProducts(where, orderBy);
@@ -75,11 +91,13 @@ const Shoes = async ({
         <Filters data={colors} valueKey="colors" name="colors" />
       </Colaps>
 
-      <section className="p-5 max-w-2xl lg:max-w-7xl md:col-span-4">
-        <section>
+      <section className="w-full md:col-span-4">
+        <section className="px-5 md:grid md:grid-cols-5">
+          <SearchBar />
+          <div className="pb-5 md:hidden"></div>
           <Sort />
         </section>
-        <section>
+        <section className="p-5 max-w-2xl lg:max-w-7xl ">
           <DisplayProducts products={products} />
         </section>
       </section>

@@ -40,7 +40,7 @@ export default function Sort() {
   }, [order, router, searchParams]);
 
   return (
-    <section className="w-full text-xl border-b-2 border-black">
+    <section className="w-full text-xl border-b-2 border-black md:col-span-1">
       <select
         className="text-xl w-full border-0 p-0 py-2 text-left "
         name=""

@@ -36,17 +36,15 @@ export default function Colaps({
   }, [width]);
 
   return (
-    <section className="p-5 border-r-2 md:border-gray-300">
+    <section className="px-5 pt-2 md:border-r-2 md:border-gray-300 pb-0">
       <section
-        className="flex flex-row justify-between items-center text-2xl cursor-pointer"
+        className="flex flex-row justify-between items-center text-2xl cursor-pointer border-b-2 border-black py-2"
         onClick={() => setToggle(!toggle)}
       >
         <h4>{title}</h4>
         <FontAwesomeIcon icon={toggle ? faCaretUp : faCaretDown} />
       </section>
       {!toggle && children}
-
-      {toggle && <hr className="border-b-2 border-black mt-5" />}
     </section>
   );
 }
