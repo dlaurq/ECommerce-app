@@ -7,10 +7,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import qs from "query-string";
 import { useState, useEffect } from "react";
 
-type BooleanObject = {
-  [key: string]: boolean;
-};
-
 export default function Filters({
   data,
   name,
@@ -23,46 +19,46 @@ export default function Filters({
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const [checked, setChecked] = useState<BooleanObject>({});
+  const [checked, setChecked] = useState(new Map<string, boolean>());
   const [toggle, setToggle] = useState(true);
 
+  //Checking the params after a refresh
   useEffect(() => {
     const currentParams = qs.parse(searchParams.toString());
 
     if (currentParams[valueKey]) {
       const param = currentParams[valueKey] as string;
       param.split(" ").forEach((item) => {
-        setChecked((prevChecked) => ({ ...prevChecked, [item]: true }));
+        setChecked((prevChecked) => new Map(prevChecked.set(item, true)));
       });
     }
   }, []);
 
   useEffect(() => {
-    let x = "";
+    let newParams = "";
 
-    Object.entries(checked).forEach((entry) => {
-      const [key, value] = entry;
-      if (value)
-        if (!x) x = key;
-        else x = x + " " + key;
+    checked.forEach((value, key) => {
+      if (value) newParams += key + " ";
     });
 
-    const current = qs.parse(searchParams.toString());
+    const currentParams = qs.parse(searchParams.toString());
 
-    const query = {
-      ...current,
-      [valueKey]: x,
-    };
+    if (newParams.length > 0 || currentParams[valueKey]) {
+      const query = {
+        ...currentParams,
+        [valueKey]: newParams,
+      };
 
-    const url = qs.stringifyUrl(
-      {
-        url: window.location.href,
-        query,
-      },
-      { skipNull: true }
-    );
+      const url = qs.stringifyUrl(
+        {
+          url: window.location.href,
+          query,
+        },
+        { skipNull: true }
+      );
 
-    router.push(url);
+      router.push(url);
+    }
   }, [checked, router, searchParams, valueKey]);
 
   return (
@@ -79,14 +75,14 @@ export default function Filters({
           <fieldset key={item.id} className="py-1 text-xl">
             <input
               type="checkbox"
-              defaultChecked={checked[item.name]}
+              defaultChecked={checked.get(item.name)}
               name={item.name}
               id={name + item.id}
               onChange={(e) =>
-                setChecked((prevChecked) => ({
-                  ...prevChecked,
-                  [e.target.name]: e.target.checked,
-                }))
+                setChecked(
+                  (prevChecked) =>
+                    new Map(prevChecked.set(e.target.name, e.target.checked))
+                )
               }
             />
             <label htmlFor={name + item.id} className="ml-2">

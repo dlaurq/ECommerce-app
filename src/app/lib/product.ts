@@ -1,6 +1,6 @@
 import prisma from "./prisma";
 
-export async function getAllProducts(where = {}) {
+export async function getAllProducts(where = {}, orderBy = {}) {
   const res = await prisma.product.findMany({
     where: where,
     include: {
@@ -16,9 +16,7 @@ export async function getAllProducts(where = {}) {
         },
       },
     },
-    orderBy: {
-      name: "asc",
-    },
+    orderBy: orderBy,
   });
   return res;
 }

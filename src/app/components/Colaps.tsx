@@ -11,20 +11,32 @@ export default function Colaps({
   children: React.ReactNode;
   title: string;
 }) {
+  const [width, setWidth] = useState(0);
+  const [toggle, setToggle] = useState(width < 768 ? true : false);
+  const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (isClient) setWidth(innerWidth);
+
     const updateWindowDimensions = () => {
-      setToggle(window.innerWidth < 768 ? true : false);
+      if (isClient) setWidth(innerWidth);
     };
 
     window.addEventListener("resize", updateWindowDimensions);
 
     return () => window.removeEventListener("resize", updateWindowDimensions);
-  }, []);
+  }, [isClient]);
 
-  const [toggle, setToggle] = useState(window.innerWidth < 768 ? true : false);
+  useEffect(() => {
+    setToggle(width < 768 ? true : false);
+  }, [width]);
 
   return (
-    <section className="p-5 md:min-w-[15rem] border-r-2 md:border-gray-300">
+    <section className="p-5 border-r-2 md:border-gray-300">
       <section
         className="flex flex-row justify-between items-center text-2xl cursor-pointer"
         onClick={() => setToggle(!toggle)}
